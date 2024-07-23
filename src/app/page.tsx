@@ -22,7 +22,7 @@ export default function Landing() {
                 through a live agent, artificial or pre-recorded voice, and automated SMS text at my residential or cellular number,
                 dialed manually or by autodialer, and by email (consent to be contacted is not a condition to purchase services).{" "}
                 <Link href="#" className="underline underline-offset-2" prefetch={true}>
-                  Terns &amp; Conditions
+                  Terms &amp; Conditions
                 </Link>
               </p>
             </div>
