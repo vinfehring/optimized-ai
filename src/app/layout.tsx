@@ -3,7 +3,10 @@ import { Inter as FontSans } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import {
+  Button,
+  ButtonVariants
+} from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -31,6 +34,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  function SignInOnClick() {
+    console.log("Sign In Clicked");
+  }
+
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
@@ -57,7 +65,9 @@ export default function RootLayout({
                   <Link href="/pricing" className="text-muted-foreground" prefetch={true}>
                     Pricing
                   </Link>
-                  <Button>Sign In</Button>
+                  <Button asChild>
+                    <Link href="/sign-in">Sign In</Link>
+                  </Button>
                 </nav>
                 <Sheet>
                   <SheetTrigger asChild>
@@ -87,8 +97,12 @@ export default function RootLayout({
                       <Link href="/pricing" className="text-muted-foreground" prefetch={true}>
                         Pricing
                       </Link>
-                      <Button>Sign Up</Button>
-                      <Button>Sign In</Button>
+                      <Button asChild>
+                        <Link href="/sign-up">Sign Up</Link>
+                      </Button>
+                      <Button asChild>
+                        <Link href="/sign-in">Sign In</Link>
+                      </Button>
                     </nav>
                   </SheetContent>
                 </Sheet>

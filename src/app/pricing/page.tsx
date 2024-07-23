@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
 export default function Pricing() {
@@ -18,7 +19,9 @@ export default function Pricing() {
                 <span className="text-muted-foreground">/ month</span>
               </div>
               <span className="text-muted-foreground"> + $0.42 per minute</span>
-              <Button className="w-full">Get Started</Button>
+              <Button className="w-full" asChild>
+                <Link href="/sign-up">Get Started</Link>
+              </Button>
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
