@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { supabase } from "@/lib/database";
 
 export async function GET() {
 
@@ -16,6 +17,27 @@ export async function POST(request : Request) {
   console.log("Phone: ", phone);
   const industry = formData.get("industry");
   console.log("Industry: ", industry);
+
+  let promptId;
+  let campaignId;
+  
+  switch (industry) {
+    case "restaurant":
+      promptId = 109993;
+      campaignId = 24012;
+      break;
+    case "barber-shop":
+      promptId = 109993;
+      campaignId = 24012;
+      break;
+    case "retail":
+      promptId = 109993;
+      campaignId = 24012;
+      break;
+    default:
+      // Handle the default case if needed
+      break;
+  }
 
   const response = await fetch('https://api.air.ai/v1/calls', {
     method: 'POST',
@@ -38,6 +60,9 @@ export async function POST(request : Request) {
 
   if (response.ok) {
     console.log("Demo call created successfully");
+    const callData = await supabase.from('leads').upsert([
+      { company_name: companyName, first_name: firstName, phone_number: phone, industry: industry }
+    ]).select()
     return new Response("OK");
   } else {
     console.log("Error sending demo call to customer");
