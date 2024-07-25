@@ -11,6 +11,7 @@ import {
   SheetContent,
   SheetTrigger
 } from "@/components/ui/sheet"
+import { UserButton } from "@clerk/nextjs"
 
 export function MainNav() {
 
@@ -103,6 +104,7 @@ export function MainNav() {
               />
             </div>
           </form>
+          <UserButton />
         </div>
       </header>
     </>
