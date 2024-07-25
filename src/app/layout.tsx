@@ -37,7 +37,7 @@ export default function RootLayout({
   }
 
   return (
-    <ClerkProvider>
+    <ClerkProvider afterSignOutUrl={`/`}>
       <html lang="en" suppressHydrationWarning>
         <body
           className={cn(
