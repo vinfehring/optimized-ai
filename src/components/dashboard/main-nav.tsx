@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -12,8 +13,20 @@ import {
   SheetTrigger
 } from "@/components/ui/sheet"
 import { UserButton } from "@clerk/nextjs"
+import { usePathname } from 'next/navigation';
+
+const NavLinks = [
+  { id: 1, name: 'Dashboard', path: '/dashboard' },
+  { id: 2, name: 'Customers', path: '/dashboard/customers' },
+  { id: 3, name: 'Promotions', path: '/dashboard/promotions' },
+  { id: 4, name: 'Reports', path: '/dashboard/reports' },
+];
+
+
 
 export function MainNav() {
+  const pathname = usePathname();
+  const isActive = (path) => path === pathname;
 
   return (
     <>
@@ -25,30 +38,15 @@ export function MainNav() {
           >
             <Image src="/images/logo-color.webp" height={40} width={341} alt="Optimized AI" />
           </Link>
-          <Link
-            href="/dashboard"
-            className="text-foreground transition-colors hover:text-foreground"
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="/dashboard/customers"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Customers
-          </Link>
-          <Link
-            href="/dashboard/promotions"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Promotions
-          </Link>
-          <Link
-            href="/dashboard/reports"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Reports
-          </Link>
+          {NavLinks.map((link) => {
+            return (
+              <Link href={link.path} key={link.id}
+                className={isActive(link.path) ? 'font-bold' : 'text-muted-foreground'}
+              >
+                {link.name}
+              </Link>
+            )
+          })}
         </nav>
         <Sheet>
           <SheetTrigger asChild>
@@ -69,27 +67,15 @@ export function MainNav() {
               >
                 <Image src="/images/logo-color.webp" height={80} width={381} alt="Optimized AI" />
               </Link>
-              <Link href="/dashboard" className="hover:text-foreground">
-                Dashboard
-              </Link>
-              <Link
-                href="/dashboard/customers"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Customers
-              </Link>
-              <Link
-                href="/dashboard/promotions"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Promotions
-              </Link>
-              <Link
-                href="/dashboard/reports"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Reports
-              </Link>
+              {NavLinks.map((link) => {
+                return (
+                  <Link href={link.path} key={link.id}
+                    className={isActive(link.path) ? 'hover:text-foreground' : 'text-muted-foreground hover:text-foreground'}
+                  >
+                    {link.name}
+                  </Link>
+                )
+              })}
             </nav>
           </SheetContent>
         </Sheet>

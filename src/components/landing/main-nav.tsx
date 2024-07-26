@@ -66,15 +66,15 @@ export function MainNav() {
               >
                 <Image src="/images/logo-color.webp" width={381} height={80} alt="Optimized AI" />
               </Link>
-              <Link href="/" className="font-bold" prefetch={true}>
-                Home
-              </Link>
-              <Link href="/features" className="text-muted-foreground" prefetch={true}>
-                Features
-              </Link>
-              <Link href="/pricing" className="text-muted-foreground" prefetch={true}>
-                Pricing
-              </Link>
+              {NavLinks.map((link) => {
+                return (
+                  <Link href={link.path} key={link.id}
+                    className={isActive(link.path) ? 'font-bold' : 'text-muted-foreground'}
+                  >
+                    {link.name}
+                  </Link>
+                )
+              })}
               <Button asChild>
                 <Link href="/sign-up">Sign Up</Link>
               </Button>
