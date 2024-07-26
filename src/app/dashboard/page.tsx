@@ -34,23 +34,50 @@ import { supabase } from "@/lib/database"
 export default async function Dashboard() {
 
   // Check user ID from Clerk, and add to Supabase database
-  const  user  = await currentUser();
-  console.log(user?.id);
+  const user = await currentUser();
+  console.log(user);
 
   const { data: userData, error } = await supabase
     .from("users")
-    .upsert({clerk_id: user?.id}, { onConflict: 'clerk_id', ignoreDuplicates: false})
+    .upsert({ clerk_id: user?.id }, { onConflict: 'clerk_id', ignoreDuplicates: false })
     .select()
-    if (error) console.log("Supabase Error: ", error);
+  if (error) console.log("Supabase Error: ", error);
   console.log("userData from Supabase: ", userData);
-  
-  
+
+  const { data: callData, error: callError } = await supabase
+    .from("calls")
+    .select()
+    .eq('user_id', user?.id)
+  if (callError) console.log("Supabase Call Error: ", error);
+  console.log("callData from Supabase: ", callData);
+  const callCount = callData?.length;
+  console.log("callCount from Supabase: ", callCount);
+
+  const { data: promotionData, error: promotionError } = await supabase
+    .from("promotions")
+    .select()
+    .eq('user_id', user?.id)
+  if (promotionError) console.log("Supabase Promotion Error: ", error);
+  console.log("promotionData from Supabase: ", promotionData);
+  const promotionCount = promotionData?.length;
+  console.log("promotionCount from Supabase: ", promotionCount)
+
+  const { data: customerData, error: customerError } = await supabase
+    .from("contacts")
+    .select()
+    .eq('user_id', user?.id)
+  if (customerError) console.log("Supabase Customer Error: ", error);
+  console.log("customerData from Supabase: ", customerData);
+  const customerCount = customerData?.length;
+  console.log("customerCount from Supabase: ", customerCount);
+
+
   return (
     <>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
           <Card x-chunk="dashboard-01-chunk-0">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 Total Spend
               </CardTitle>
@@ -71,9 +98,8 @@ export default async function Dashboard() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+2350</div>
+              <div className="text-2xl font-bold">{customerCount}</div>
               <p className="text-xs text-muted-foreground">
-                +180.1% from last month
               </p>
             </CardContent>
           </Card>
@@ -83,9 +109,8 @@ export default async function Dashboard() {
               <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+12,234</div>
+              <div className="text-2xl font-bold">{promotionCount}</div>
               <p className="text-xs text-muted-foreground">
-                +19% from last month
               </p>
             </CardContent>
           </Card>
@@ -95,9 +120,8 @@ export default async function Dashboard() {
               <Activity className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+573</div>
+              <div className="text-2xl font-bold">{callCount}</div>
               <p className="text-xs text-muted-foreground">
-                +201 since last hour
               </p>
             </CardContent>
           </Card>
