@@ -30,7 +30,14 @@ export function PromotionForm() {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    const formData = new URLSearchParams(values).toString();
+    const response = fetch("/api/promotions", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formData
+    })
   }
 
   return (
