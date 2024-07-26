@@ -48,7 +48,7 @@ export default function RootLayout({
           <div className="flex min-h-screen w-full flex-col">
             <div className="flex flex-col min-h-dvh">
               <header className="flex items-center h-35 px-4 border-b shrink-0 md:px-6">
-                <Link href="#" className="flex items-center gap-2 text-lg font-semibold" prefetch={true}>
+                <Link href="/" className="flex items-center gap-2 text-lg font-semibold" prefetch={true}>
                   <Image src="/images/logo-color.webp" width={381} height={80} alt="Optimized AI" />
                   <span className="sr-only">Optimized AI</span>
                 </Link>
