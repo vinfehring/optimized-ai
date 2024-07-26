@@ -59,14 +59,14 @@ export default async function Customers() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Customer</TableHead>
-                    <TableHead className="hidden xl:table-column">
-                      Type
+                    <TableHead>
+                      Text Notif.
                     </TableHead>
-                    <TableHead className="hidden xl:table-column">
-                      Status
+                    <TableHead>
+                      Phone Notif.
                     </TableHead>
-                    <TableHead className="hidden xl:table-column">
-                      Date
+                    <TableHead>
+                      Email Notif.
                     </TableHead>
                     <TableHead className="text-right">Email</TableHead>
                   </TableRow>
@@ -81,16 +81,14 @@ export default async function Customers() {
                             +1{customer.phone}
                           </div>
                         </TableCell>
-                        <TableCell className="hidden xl:table-column">
-                          {customer.type}
+                        <TableCell>
+                          <Badge>{customer.text_notif ? "Yes" : "No" }</Badge>
+                          </TableCell>
+                        <TableCell>
+                          <Badge>{customer.phone_notif ? "Yes" : "No" }</Badge>
                         </TableCell>
-                        <TableCell className="hidden xl:table-column">
-                          <Badge className="text-xs" variant="outline">
-                            {customer.phone}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                          {customer.date}
+                        <TableCell>
+                          <Badge>{customer.email_notif ? "Yes" : "No" }</Badge>
                         </TableCell>
                         <TableCell className="text-right">{customer.email}</TableCell>
                       </TableRow>
