@@ -7,68 +7,27 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const formData = await request.formData();
+  console.log(formData);
 
-  console.log("Form Data: ", formData);
-  const companyName = formData.get("company");
-  console.log("Company Name: ", companyName);
+  console.log("First Name", formData.get("firstName"));
   const firstName = formData.get("firstName");
-  console.log("First Name: ", firstName);
+  console.log("Last Name", formData.get("lastName"));
+  const lastName = formData.get("lastName");
+  console.log("Phone Number", formData.get("phone"));
   const phone = formData.get("phone");
-  console.log("Phone: ", phone);
-  const industry = formData.get("industry");
-  console.log("Industry: ", industry);
+  console.log("User ID", formData.get("userId"));
+  const userId = formData.get("userId");
 
-  let promptId;
-  let campaignId;
-
-  switch (industry) {
-    case "restaurant":
-      promptId = 109993;
-      campaignId = 24012;
-      break;
-    case "barber-shop":
-      promptId = 109993;
-      campaignId = 24012;
-      break;
-    case "retail":
-      promptId = 109993;
-      campaignId = 24012;
-      break;
-    default:
-      // Handle the default case if needed
-      break;
-  }
-
-  const response = await fetch('https://api.air.ai/v1/calls', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${process.env.AIR_API_KEY}`
-    },
-    body: JSON.stringify({
-      promptId: 109993,
-      campaignId: 24012,
-      phone: phone,
-      name: firstName,
-      metadata: {
-        company: companyName,
-        industry: industry
-      }
-    }),
-  });
-
-  if (response.ok) {
-    console.log("Demo call created successfully");
-    const callData = await supabase.from('leads').upsert([
-      { company_name: companyName, first_name: firstName, phone_number: phone, industry: industry },
-      { onConflict: ['phone_number'], ignoreDuplicates: false },
-    ]).select()
-    return new Response("OK");
-  } else {
-    console.log("Error sending demo call to customer");
+  const { data: customerData, error: customerError } = await supabase.from('contacts').upsert(
+    { first_name: firstName, last_name: lastName, phone: phone, user_id: userId },
+    { onConflict: 'phone', ignoreDuplicates: false }
+  ).select()
+  
+  if (customerError) {
+    console.log("Error creating customer: ", customerError);
     return new Response("ERROR");
   }
+  return new Response("OK");
 }
 
 export async function PUT() {
