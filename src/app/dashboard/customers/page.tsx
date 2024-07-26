@@ -20,8 +20,19 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { CustomerForm } from "@/components/dashboard/customers/customer-form"
+import { currentUser } from '@clerk/nextjs/server'
+import { supabase } from "@/lib/database"
 
-export default function Customers() {
+export default async function Customers() {
+  const user = await currentUser();
+
+  const { data: customerData, error: customerError } = await supabase
+    .from('contacts')
+    .select()
+    .eq('user_id', user?.id);
+  if (customerError) console.log("Customer Error from Supabase: ", customerError);
+
+  console.log("Customers from Supabase: ", customerData);
   return (
     <>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
@@ -57,110 +68,34 @@ export default function Customers() {
                     <TableHead className="hidden xl:table-column">
                       Date
                     </TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
+                    <TableHead className="text-right">Email</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <div className="font-medium">Liam Johnson</div>
-                      <div className="hidden text-sm text-muted-foreground md:inline">
-                        liam@example.com
-                      </div>
-                    </TableCell>
-                    <TableCell className="hidden xl:table-column">
-                      Sale
-                    </TableCell>
-                    <TableCell className="hidden xl:table-column">
-                      <Badge className="text-xs" variant="outline">
-                        Approved
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                      2023-06-23
-                    </TableCell>
-                    <TableCell className="text-right">$250.00</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <div className="font-medium">Olivia Smith</div>
-                      <div className="hidden text-sm text-muted-foreground md:inline">
-                        olivia@example.com
-                      </div>
-                    </TableCell>
-                    <TableCell className="hidden xl:table-column">
-                      Refund
-                    </TableCell>
-                    <TableCell className="hidden xl:table-column">
-                      <Badge className="text-xs" variant="outline">
-                        Declined
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                      2023-06-24
-                    </TableCell>
-                    <TableCell className="text-right">$150.00</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <div className="font-medium">Noah Williams</div>
-                      <div className="hidden text-sm text-muted-foreground md:inline">
-                        noah@example.com
-                      </div>
-                    </TableCell>
-                    <TableCell className="hidden xl:table-column">
-                      Subscription
-                    </TableCell>
-                    <TableCell className="hidden xl:table-column">
-                      <Badge className="text-xs" variant="outline">
-                        Approved
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                      2023-06-25
-                    </TableCell>
-                    <TableCell className="text-right">$350.00</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <div className="font-medium">Emma Brown</div>
-                      <div className="hidden text-sm text-muted-foreground md:inline">
-                        emma@example.com
-                      </div>
-                    </TableCell>
-                    <TableCell className="hidden xl:table-column">
-                      Sale
-                    </TableCell>
-                    <TableCell className="hidden xl:table-column">
-                      <Badge className="text-xs" variant="outline">
-                        Approved
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                      2023-06-26
-                    </TableCell>
-                    <TableCell className="text-right">$450.00</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <div className="font-medium">Liam Johnson</div>
-                      <div className="hidden text-sm text-muted-foreground md:inline">
-                        liam@example.com
-                      </div>
-                    </TableCell>
-                    <TableCell className="hidden xl:table-column">
-                      Sale
-                    </TableCell>
-                    <TableCell className="hidden xl:table-column">
-                      <Badge className="text-xs" variant="outline">
-                        Approved
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                      2023-06-27
-                    </TableCell>
-                    <TableCell className="text-right">$550.00</TableCell>
-                  </TableRow>
+                  {customerData?.map((customer) => {
+                    return (
+                      <TableRow key={customer.id}>
+                        <TableCell>
+                          <div className="font-medium">{customer.first_name} {customer.last_name}</div>
+                          <div className="hidden text-sm text-muted-foreground md:inline">
+                            +1{customer.phone}
+                          </div>
+                        </TableCell>
+                        <TableCell className="hidden xl:table-column">
+                          {customer.type}
+                        </TableCell>
+                        <TableCell className="hidden xl:table-column">
+                          <Badge className="text-xs" variant="outline">
+                            {customer.phone}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
+                          {customer.date}
+                        </TableCell>
+                        <TableCell className="text-right">{customer.email}</TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </CardContent>
