@@ -1,5 +1,9 @@
 import { SignIn } from "@clerk/nextjs"
 
 export default function Page() {
-  return <SignIn forceRedirectUrl={`/dashboard`}/>
+  return (
+    <section className="h-screen w-screen flex py-12 md:py-24 lg:py-32 xl:py-48 justify-center">
+      <SignIn forceRedirectUrl={`/dashboard`} />
+    </section >
+  );
 }
