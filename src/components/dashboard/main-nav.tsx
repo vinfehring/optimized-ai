@@ -26,7 +26,7 @@ const NavLinks = [
 
 export function MainNav() {
   const pathname = usePathname();
-  const isActive = (path) => path === pathname;
+  const isActive = (path: string) => path === pathname;
 
   return (
     <>
