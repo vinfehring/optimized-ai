@@ -29,8 +29,8 @@ export function MainNav() {
   return (
     <>
       <header className="flex items-center h-35 px-4 border-b shrink-0 md:px-6">
-        <Link href="/" className="flex items-center gap-2 text-lg font-semibold" prefetch={true}>
-          <Image src="/images/logo-color.webp" width={381} height={80} alt="Optimized AI" />
+        <Link href="/" className="flex items-center gap-2 text-lg font-semibold py-2" prefetch={true}>
+          <Image src="/images/logo-color.webp" width={306} height={5} alt="Optimized AI" />
           <span className="sr-only">Optimized AI</span>
         </Link>
         <nav className="flex-col hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6 ml-auto">
