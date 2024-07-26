@@ -14,6 +14,7 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { useUser } from "@clerk/nextjs";
+import Link from "next/link";
 
 const formSchema = z.object({
   csvFile: z.instanceof(File)
@@ -83,6 +84,12 @@ export function CustomerUploadForm() {
         <Button type="submit" disabled={isUploading}>
           {isUploading ? 'Uploading...' : 'Upload CSV'}
         </Button>
+
+        <div className="mt-4">
+          <Link href="/ExampleContactUpload.csv" download className="text-blue-600 hover:underline">
+            Download Sample CSV File
+          </Link>
+        </div>
       </form>
     </Form>
   );

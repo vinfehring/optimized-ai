@@ -15,11 +15,15 @@ export async function POST(request: Request) {
   const lastName = formData.get("lastName");
   console.log("Phone Number", formData.get("phone"));
   const phone = formData.get("phone");
+  const email = formData.get("email");
   console.log("User ID", formData.get("userId"));
+  const textNotif = formData.get("textNotif");
+  const emailNotif = formData.get("emailNotif");
+  const phoneNotif = formData.get("phoneNotif");
   const userId = formData.get("userId");
 
   const { data: customerData, error: customerError } = await supabase.from('contacts').upsert(
-    { first_name: firstName, last_name: lastName, phone: phone, user_id: userId },
+    { first_name: firstName, last_name: lastName, phone: phone, email: email, user_id: userId, text_notif: textNotif, email_notif: emailNotif, phone_notif: phoneNotif },
     { onConflict: 'phone', ignoreDuplicates: false }
   ).select()
   
