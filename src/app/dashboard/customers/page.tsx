@@ -22,6 +22,7 @@ import {
 import { CustomerForm } from "@/components/dashboard/customers/customer-form"
 import { currentUser } from '@clerk/nextjs/server'
 import { supabase } from "@/lib/database"
+import { CustomerUploadForm } from "@/components/dashboard/customers/customer-upload-form"
 
 export default async function Customers() {
   const user = await currentUser();
@@ -104,6 +105,7 @@ export default async function Customers() {
             </CardHeader>
             <CardContent className="grid gap-8">
               <CustomerForm />
+              <CustomerUploadForm />
             </CardContent>
           </Card>
         </div>
