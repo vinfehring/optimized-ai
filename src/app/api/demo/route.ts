@@ -61,7 +61,8 @@ export async function POST(request : Request) {
   if (response.ok) {
     console.log("Demo call created successfully");
     const callData = await supabase.from('leads').upsert([
-      { company_name: companyName, first_name: firstName, phone_number: phone, industry: industry }
+      { company_name: companyName, first_name: firstName, phone_number: phone, industry: industry },
+      { onConflict: ['phone_number'], ignoreDuplicates: false },
     ]).select()
     return new Response("OK");
   } else {

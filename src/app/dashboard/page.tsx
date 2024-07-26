@@ -28,12 +28,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { currentUser } from '@clerk/nextjs/server'
+import { supabase } from "@/lib/database"
 
-export default function Dashboard() {
+export default async function Dashboard() {
 
-  function getTotalCustomers() {
-    
-  }
+  // Check user ID from Clerk, and add to Supabase database
+  const  user  = await currentUser();
+  console.log(user?.id);
+
+  const { data: userData, error } = await supabase
+    .from("users")
+    .upsert({clerk_id: user?.id}, { onConflict: 'clerk_id', ignoreDuplicates: false})
+    .select()
+    if (error) console.log("Supabase Error: ", error);
+  console.log("userData from Supabase: ", userData);
+  
   
   return (
     <>
