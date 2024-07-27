@@ -45,7 +45,13 @@ export function CustomerForm() {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const updatedValues = { ...values, userId: user?.id ?? "" };
+    const updatedValues = {
+      ...values,
+      userId: user?.id ?? "",
+      textNotif: values.textNotif.toString(),
+      emailNotif: values.emailNotif.toString(),
+      phoneNotif: values.phoneNotif.toString()
+    };
     const formData = new URLSearchParams(updatedValues).toString();
     const response = fetch("/api/customers", {
       method: 'POST',
